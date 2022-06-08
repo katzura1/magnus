@@ -16,7 +16,7 @@ class MakeTablePeserta extends Migration
         Schema::create('pesertas', function (Blueprint $table) {
             $table->id();
             $table->string('nama');
-            $table->string('jenis_kelamin', '9');
+            $table->enum('jenis_kelamin', ['Laki-laki', 'Perempuan']);
             $table->string('hobi');
             $table->string('email');
             $table->string('telp', '14');

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PesertaController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,3 +17,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::post('peserta/save', [PesertaController::class, 'save'])->name('peserta.save');
+Route::post('peserta/delete', [PesertaController::class, 'delete'])->name('peserta.delete');
+Route::post('peserta/data', [PesertaController::class, 'data'])->name('peserta.data');
