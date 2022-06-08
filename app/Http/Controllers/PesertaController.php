@@ -11,18 +11,22 @@ class PesertaController extends Controller
 {
     public function index()
     {
+        $data = [
+            'title' => 'Registrasi'
+        ];
+        return view('pages.peserta.index', $data);
     }
 
     public function save(Request $request)
     {
         $data_validator = [
-            'nama' => 'required|string|max:255',
+            'nama' => 'required|string|max:255|unique:pesertas,nama,NULL,id,deleted_at,NULL',
             'jenis_kelamin' => 'required|string|in:Laki-laki,Perempuan',
             'hobi' => 'required|string|max:255',
             'email' => 'required|string|email|max:255',
-            'telp' => 'required|numeric|max:14',
-            'username' => 'required|string|max:10',
-            'password' => 'required|string|max:255',
+            'telp' => 'required|digits_between:10,14',
+            'username' => 'required|string|max:10|unique:pesertas,username,NULL,id,deleted_at,NULL',
+            'password' => 'required|string|min:7|max:255',
         ];
 
         $validator = Validator::make($request->all(), $data_validator);
@@ -36,7 +40,7 @@ class PesertaController extends Controller
             ];
         } else {
             $id = $request->input('id');
-
+            $request['nama'] = ucfirst($request->input('nama'));
             try {
                 DB::beginTransaction();
                 $peserta = Peserta::updateOrCreate(['id' => $id], $request->all());
@@ -60,8 +64,9 @@ class PesertaController extends Controller
         return response()->json($response);
     }
 
-    public function delete(Request $request, $id)
+    public function delete(Request $request)
     {
+        $id = $request->input('id');
         $peserta = Peserta::find($id);
         if ($peserta) {
             try {

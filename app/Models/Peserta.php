@@ -9,7 +9,7 @@ class Peserta extends Model
 {
     use SoftDeletes;
 
-    protected $table = 'peserta';
+    protected $table = 'pesertas';
     protected $fillable  = [
         'nama',
         'jenis_kelamin',
